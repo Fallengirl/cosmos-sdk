@@ -1057,7 +1057,9 @@ func (app *BaseApp) Commit() (*abci.ResponseCommit, error) {
 	}
 
 	// The SnapshotIfApplicable method will create the snapshot by starting the goroutine
-	app.snapshotManager.SnapshotIfApplicable(header.Height)
+	if app.snapshotManager != nil {
+		app.snapshotManager.SnapshotIfApplicable(header.Height)
+	}
 
 	blockCounter.Add(ctx, 1)
 
@@ -1474,3 +1476,4 @@ func toVoteInfo(votes []abci.ExtendedVoteInfo) []abci.VoteInfo {
 
 	return legacyVotes
 }
+
